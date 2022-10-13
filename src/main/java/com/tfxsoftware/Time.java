@@ -10,41 +10,41 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Time {
     
-    private String nome;
-    private String pais;
-    private String titulos;
-    private int qtdjogadores;
+    private String Nome;
+    private String Pais;
+    private String Titulos;
+    private String Tecnico;
     
     
-    public Time(String nome, String pais, String titulos, int qtd_jogadores) {
-        this.nome = nome;
-        this.pais = pais;
-        this.titulos = titulos;
-        this.qtdjogadores = qtd_jogadores;
+    public Time(String Nome, String Pais, String Titulos, String Tecnico) {
+        this.Nome = Nome;
+        this.Pais = Pais;
+        this.Titulos = Titulos;
+        this.Tecnico = Tecnico;
     }
     public String getNome() {
-        return nome;
+        return Nome;
     }
     public String getPais() {
-        return pais;
+        return Pais;
     }
     public String getTitulos() {
-        return titulos;
+        return Titulos;
     }
-    public int getQtdjogadores() {
-        return qtdjogadores;
+    public String getTecnico() {
+        return Tecnico;
     }
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNome(String Nome) {
+        this.Nome = Nome;
     }
-    public void setPais(String pais) {
-        this.pais = pais;
+    public void setPais(String Pais) {
+        this.Pais = Pais;
     }
-    public void setTitulos(String titulos) {
-        this.titulos = titulos;
+    public void setTitulos(String Titulos) {
+        this.Titulos = Titulos;
     }
-    public void setQtdjogadores(int qtdjogadores) {
-        this.qtdjogadores = qtdjogadores;
+    public void setTecnico(String Tecnico) {
+        this.Tecnico = Tecnico;
     }
 
     public String toJson() throws JsonProcessingException{

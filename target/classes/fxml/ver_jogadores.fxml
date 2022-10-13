@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfxsoftware.VerTimesController">
+   <children>
+      <TableView fx:id="Tabela_Times" layoutX="14.0" layoutY="66.0" prefHeight="300.0" prefWidth="463.0">
+        <columns>
+          <TableColumn fx:id="c_times_nome" prefWidth="114.0" text="Nome" />
+          <TableColumn fx:id="c_times_pais" prefWidth="47.0" text="Idade" />
+            <TableColumn fx:id="c_times_titulos" prefWidth="123.0" text="Gols" />
+            <TableColumn fx:id="c_times_tecnico" prefWidth="154.0" text="Posição" />
+        </columns>
+      </TableView>
+      <Label fx:id="label_times" layoutX="14.0" layoutY="33.0" prefHeight="33.0" prefWidth="97.0" text="Jogadores">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="button_novotime" layoutX="491.0" layoutY="66.0" mnemonicParsing="false" onAction="#abrirJogadores" prefHeight="25.0" prefWidth="124.0" text="Add Jogador" />
+      <Button fx:id="button_vertime" layoutX="491.0" layoutY="111.0" mnemonicParsing="false" onAction="#abrirJogadores" prefHeight="25.0" prefWidth="124.0" text="Editar Jogador" />
+      <Button fx:id="button_sair" layoutX="636.0" layoutY="341.0" mnemonicParsing="false" onAction="#sair" prefHeight="25.0" prefWidth="124.0" text="Voltar" />
+      <Button fx:id="times_button_atualizar" layoutX="491.0" layoutY="341.0" mnemonicParsing="false" onAction="#atualizaTabela" prefHeight="25.0" prefWidth="124.0" text="Atualizar" textFill="#0a7915" />
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="298.0" text="&lt;nome_time&gt;" textFill="#276b05">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button layoutX="491.0" layoutY="153.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="124.0" text="Deletar Jogador" textFill="#ee0c0c" />
+      <Label layoutX="641.0" layoutY="25.0" text="Info Time:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="633.0" layoutY="70.0" text="Nome:" />
+      <Label layoutX="633.0" layoutY="98.0" text="Pais:" />
+      <Label layoutX="633.0" layoutY="123.0" text="Titulos:" />
+      <Label layoutX="633.0" layoutY="148.0" text="Tecnico:" />
+      <Label layoutX="681.0" layoutY="70.0" text="&lt;nome_time&gt;" />
+      <Label layoutX="681.0" layoutY="98.0" text="&lt;pais_time&gt;" />
+      <Label layoutX="681.0" layoutY="123.0" text="&lt;titulos_time&gt;" />
+      <Label layoutX="681.0" layoutY="148.0" text="&lt;tecnico_time&gt;" />
+      <Button layoutX="631.0" layoutY="188.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="Editar Time" />
+      <Button layoutX="631.0" layoutY="227.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="134.0" text="Deletar Time" textFill="#e80808" />
+   </children>
+</AnchorPane>

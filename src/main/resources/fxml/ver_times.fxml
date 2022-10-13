@@ -7,15 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tfxsoftware.VerTimesController">
    <children>
-      <TableView fx:id="Tabela_Times" layoutX="14.0" layoutY="66.0" prefHeight="300.0" prefWidth="449.0">
+      <TableView fx:id="Tabela_Times" layoutX="14.0" layoutY="66.0" prefHeight="300.0" prefWidth="463.0">
         <columns>
-          <TableColumn fx:id="c_times_nome" prefWidth="94.0" text="Nome" />
-          <TableColumn fx:id="c_times_pais" prefWidth="85.0" text="País" />
-            <TableColumn fx:id="c_times_titulos" prefWidth="102.0" text="Títulos" />
-            <TableColumn fx:id="c_times_qtd" prefWidth="102.0" text="Qtd Jogadores" />
+          <TableColumn fx:id="c_times_nome" prefWidth="114.0" text="Nome" />
+          <TableColumn fx:id="c_times_pais" prefWidth="117.0" text="País" />
+            <TableColumn fx:id="c_times_titulos" prefWidth="53.0" text="Títulos" />
+            <TableColumn fx:id="c_times_tecnico" prefWidth="154.0" text="Técnico" />
         </columns>
       </TableView>
       <Label fx:id="label_times" layoutX="14.0" layoutY="21.0" prefHeight="33.0" prefWidth="60.0" text="Times">
@@ -23,8 +22,9 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="button_novotime" layoutX="491.0" layoutY="66.0" mnemonicParsing="false" onAction="#novo_time" prefHeight="25.0" prefWidth="86.0" text="Novo Time" />
-      <Button fx:id="button_vertime" layoutX="491.0" layoutY="116.0" mnemonicParsing="false" onAction="#open_times" prefHeight="25.0" prefWidth="86.0" text="Ver/Editar" />
+      <Button fx:id="button_novotime" layoutX="491.0" layoutY="66.0" mnemonicParsing="false" onAction="#abrirJogadores" prefHeight="25.0" prefWidth="86.0" text="Novo Time" />
+      <Button fx:id="button_vertime" layoutX="491.0" layoutY="116.0" mnemonicParsing="false" onAction="#abrirJogadores" prefHeight="25.0" prefWidth="86.0" text="Ver/Editar" />
       <Button fx:id="button_sair" layoutX="491.0" layoutY="341.0" mnemonicParsing="false" onAction="#sair" prefHeight="25.0" prefWidth="86.0" text="Sair" />
+      <Button fx:id="times_button_atualizar" layoutX="491.0" layoutY="162.0" mnemonicParsing="false" onAction="#atualizaTabela" prefHeight="25.0" prefWidth="86.0" text="Atualizar" />
    </children>
 </AnchorPane>
