@@ -18,11 +18,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -64,25 +66,38 @@ public class VerTimesController {
     @FXML
     private Button times_button_atualizar;
 
-    private static Stage novo;
+    private static Stage novotime;
+
+    private static Stage abrirtime;
 
     private Time selected = null;
 
+    private Alert alertbox = new Alert(AlertType.ERROR);
+
     @FXML
-    void novo_time(ActionEvent event) throws IOException {
+    void abrirNovoTime(ActionEvent event) throws IOException {
         Parent fxmlLoader = MainApp.loadFXML("novo_time");
-        this.novo = new Stage();
+        novotime = new Stage();
         Scene scene = new Scene(fxmlLoader);
-        novo.setTitle("Novo time");
-        novo.setScene(scene);
-        novo.show();
+        novotime.setTitle("Novo time");
+        novotime.setScene(scene);
+        novotime.show();
         
     }
 
     @FXML
-    void abrirJogadores(ActionEvent event) {
-        getSelecionado();
-        this.selected = null;
+    void abrirTime(ActionEvent event) throws Exception {
+        setTimeSelecionado();
+        Parent fxmlLoader1 = MainApp.loadFXML("ver_jogadores");
+        abrirtime = new Stage();
+        Scene scene1 = new Scene(fxmlLoader1);
+        abrirtime.setTitle(DbActions.timeSelecionado.getNome());
+        abrirtime.setScene(scene1);
+        abrirtime.show();
+        
+
+        
+        
     }
 
     @FXML
@@ -90,7 +105,11 @@ public class VerTimesController {
         MainApp.sair();
     }
 
-    
+    @FXML
+    void atualizaTabela(ActionEvent event) {
+        popularTimes();
+    }
+
     public void popularTimes(){
         ObservableList<Time> lista = FXCollections.observableArrayList();
         MongoCollection<Document> collection = DbActions.getCollection("ProjetoAndre", "Times"); 
@@ -116,28 +135,32 @@ public class VerTimesController {
          
     }
     
-    void voltar(){
-        novo.close();
+    static void voltarNovoTime(){
+        novotime.close();
     }
 
-
-    @FXML
-    void atualizaTabela(ActionEvent event) {
-        popularTimes();
+    static void voltarVerTime(){
+        abrirtime.close();
     }
     
+    public void setTimeSelecionado() throws Exception{
+        try{
+            TablePosition pos = Tabela_Times.getSelectionModel().getSelectedCells().get(0);
+            int row = pos.getRow();
+
+            this.selected = Tabela_Times.getItems().get(row);
+            DbActions.timeSelecionado = selected;
+        }
+        catch(Exception e){
+            alertbox.setAlertType(AlertType.ERROR);
+            alertbox.setContentText("Nem um time selecionado!");
+            alertbox.show();
+        }
+    }
+
     @FXML
     public void initialize() {
 
         popularTimes();
-    }
-    
-    public Time getSelecionado(){
-        TablePosition pos = Tabela_Times.getSelectionModel().getSelectedCells().get(0);
-        int row = pos.getRow();
-
-        // Item here is the table view type:
-        this.selected = Tabela_Times.getItems().get(row);
-        return selected;
     }
 }

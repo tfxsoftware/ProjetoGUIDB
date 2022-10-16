@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class NovoTimeController extends VerTimesController{
+public class NovoTimeController {
 
 
 
@@ -74,7 +74,7 @@ public class NovoTimeController extends VerTimesController{
 
     @FXML
     void voltar(ActionEvent event) {
-        voltar();
+        VerTimesController.voltarNovoTime();
     }
 
     @FXML
