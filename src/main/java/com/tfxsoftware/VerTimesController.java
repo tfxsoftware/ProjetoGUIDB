@@ -28,7 +28,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class VerTimesController {
+public class VerTimesController extends MainApp{
 
     @FXML
     private ResourceBundle resources;

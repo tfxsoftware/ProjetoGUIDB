@@ -30,12 +30,12 @@ public class MainApp extends Application {
         stage.show();
     }
 
-    static Parent loadFXML(String fxml) throws IOException {
+    protected static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("/fxml/" +fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
-    static void sair(){
+    public static void sair(){
 
         stage.close();
     }

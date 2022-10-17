@@ -14,12 +14,12 @@ import com.mongodb.client.model.Filters;
 
 public abstract class DbActions{
     
-    static final MongoClientURI Uri = new MongoClientURI("mongodb+srv://<>@cluster0.bs5t1p9.mongodb.net/?retryWrites=true&w=majority");
+    static final MongoClientURI Uri = new MongoClientURI("mongodb+srv://tfxsoftware:tfxsoftware@cluster0.bs5t1p9.mongodb.net/?retryWrites=true&w=majority");
     static final MongoClient client = new MongoClient(Uri);
     public static Time timeSelecionado;
     public static Jogador jogadorSelecionado;
     
-    static MongoCollection<Document> getCollection(String d, String c){
+    public static MongoCollection<Document> getCollection(String d, String c){
         MongoDatabase dataBase = client.getDatabase(d);
         MongoCollection<Document> collection = dataBase.getCollection(c);
         return collection;

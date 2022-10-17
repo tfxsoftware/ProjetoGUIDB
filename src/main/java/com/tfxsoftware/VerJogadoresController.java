@@ -27,7 +27,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class VerJogadoresController {
+public class VerJogadoresController extends MainApp{
 
     @FXML
     private TableView<Jogador> Tabela_Jogadores;
@@ -95,7 +95,11 @@ public class VerJogadoresController {
     @FXML
     private Label label_titulostime;
 
-    static Stage novojogador;
+    public static Stage novojogador;
+
+    public static Stage editjogador;
+
+    public static Stage edittime;
     
     private Alert alertbox = new Alert(AlertType.NONE);
 
@@ -107,14 +111,19 @@ public class VerJogadoresController {
     }
 
     @FXML
-    void abrirEditarTime(ActionEvent event) {
-
+    void abrirEditarTime(ActionEvent event) throws IOException {
+        Parent fxmlLoader = MainApp.loadFXML("editar_time");
+        edittime = new Stage();
+        Scene scene = new Scene(fxmlLoader);
+        edittime.setTitle("editar time");
+        edittime.setScene(scene);
+        edittime.show();
     }
 
     @FXML
     void abrirNovoJogador(ActionEvent event) throws IOException {
         Parent fxmlLoader = MainApp.loadFXML("novo_jogador");
-        Stage novojogador = new Stage();
+        novojogador = new Stage();
         Scene scene = new Scene(fxmlLoader);
         novojogador.setTitle("Novo time");
         novojogador.setScene(scene);
@@ -180,8 +189,12 @@ public class VerJogadoresController {
         Tabela_Jogadores.setItems(lista);
     }
 
-    static void voltarNovoJogador(){
+    public static void voltarNovoJogador(){
         novojogador.close();
+    }
+
+    public static void voltarEditTime(){
+        edittime.close();
     }
 
     public void setJogadorSelecionado() throws Exception{

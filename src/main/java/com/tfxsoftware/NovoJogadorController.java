@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 
-public class NovoJogadorController {
+public class NovoJogadorController extends MainApp{
 
     @FXML
     private AnchorPane not;
@@ -61,6 +61,11 @@ public class NovoJogadorController {
         }   
         else{
             if(DbActions.addJogador(novojogador_textf_nome.getText(), novojogador_textf_idade.getText(), novojogador_textf_gols.getText(), novojogador_textf_posicao.getText(), DbActions.timeSelecionado.getNome())){
+                novojogador_textf_gols.setText("");
+                novojogador_textf_idade.setText("");
+                novojogador_textf_nome.setText("");
+                novojogador_textf_posicao.setText("");
+
                 alertbox.setAlertType(AlertType.INFORMATION);
                 alertbox.setContentText("Jogador registrado com sucesso!");
                 alertbox.show();

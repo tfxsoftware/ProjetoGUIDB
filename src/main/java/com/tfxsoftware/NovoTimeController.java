@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
-public class NovoTimeController {
+public class NovoTimeController extends MainApp{
 
 
 
@@ -60,6 +60,10 @@ public class NovoTimeController {
         }
         else{
             if(DbActions.addTime(novotime_textf_nome.getText(), novotime_textf_pais.getText(), novotime_textf_titulos.getText(), novotime_textf_tecnico.getText())){
+                novotime_textf_nome.setText("");
+                novotime_textf_pais.setText("");
+                novotime_textf_titulos.setText("");
+                novotime_textf_tecnico.setText("");
                 alertbox.setAlertType(AlertType.INFORMATION);
                 alertbox.setContentText("Time registrado com sucesso!");
                 alertbox.show();
