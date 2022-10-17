@@ -10,6 +10,7 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 public abstract class DbActions{
     
@@ -79,11 +80,42 @@ public abstract class DbActions{
         return true;
     }
 
-    public static void deletaJogador(String nome){
-        System.out.println("teste");
+    public static void deletaTime(){
+        MongoCollection<Document> collectionj = getCollection("ProjetoAndre", "Jogadores");
+        MongoCursor<Document> cursorj = collectionj.find(eq("Time", timeSelecionado.getNome())).iterator();
+        while (cursorj.hasNext()){
+            Document jogador = cursorj.next();
+            collectionj.deleteOne(jogador);
+        }
+        
+        MongoCollection<Document> collection = getCollection("ProjetoAndre", "Times");
+        MongoCursor<Document> cursor = collection.find().iterator();
+            while(cursor.hasNext()){
+                Document time = cursor.next();
+                String n = (String) time.get("Nome");
+                if (n.equals(timeSelecionado.getNome())){
+                    collection.deleteOne(time);
+                }
+        }
+    }
+    
+    public static void deletaJogador(Document j){
         MongoCollection<Document> collection = getCollection("ProjetoAndre", "Jogadores");
-        Bson query = eq(new Document().append("Nome", nome).append("Time", timeSelecionado.getNome()));
-        collection.deleteOne(query);
+        MongoCursor<Document> cursor = collection.find().iterator();
+            while(cursor.hasNext()){
+                Document jogador = cursor.next();
+                String n = (String) jogador.get("Nome");
+                String t = (String) jogador.get("Time");
+                if (n.equals(j.get("Nome")) && t.equals(timeSelecionado.getNome())){
+                    collection.deleteOne(jogador);
+                }
+        }
+    }
+
+    public static void editaTime(){
+        MongoCollection<Document> collection = getCollection("ProjetoAndre", "Times");
+        MongoCursor<Document> cursor = collection.find().iterator();
+        
     }
 
 

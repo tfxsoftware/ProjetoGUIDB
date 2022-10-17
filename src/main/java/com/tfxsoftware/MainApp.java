@@ -36,6 +36,7 @@ public class MainApp extends Application {
     }
 
     static void sair(){
+
         stage.close();
     }
 

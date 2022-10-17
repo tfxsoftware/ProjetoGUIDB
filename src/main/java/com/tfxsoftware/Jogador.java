@@ -1,5 +1,7 @@
 package com.tfxsoftware;
 
+import org.bson.Document;
+
 public class Jogador {
     private String Nome;
     private String Idade;
@@ -48,4 +50,12 @@ public class Jogador {
         Time = time;
     }
 
+    public Document toDocument(){
+        Document document = new Document("Nome", Nome)
+        .append("Idade", Idade)
+        .append("Gols", Gols)
+        .append("Posicao", Posicao)
+        .append("Time", Time);
+        return document;
+    }
 }

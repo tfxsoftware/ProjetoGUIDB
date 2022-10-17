@@ -97,7 +97,7 @@ public class VerJogadoresController {
 
     static Stage novojogador;
     
-    private Alert alertbox = new Alert(AlertType.ERROR);
+    private Alert alertbox = new Alert(AlertType.NONE);
 
     private Jogador selected;
 
@@ -132,19 +132,26 @@ public class VerJogadoresController {
         alertbox.setAlertType(AlertType.CONFIRMATION);
         alertbox.setContentText("Tem certeza que deseja deletar jogador?");
         Optional<ButtonType> result = alertbox.showAndWait();
-        if(result.isPresent() || result.get() == ButtonType.OK) {
-            DbActions.deletaJogador(DbActions.jogadorSelecionado.getNome());
+        if(result.get() == ButtonType.OK) {
+            DbActions.deletaJogador(DbActions.jogadorSelecionado.toDocument());
         }
         
     }
 
     @FXML
-    void deletarTime(ActionEvent event) {
-
+    void deletarTime(ActionEvent event) throws Exception {
+        alertbox.setAlertType(AlertType.CONFIRMATION);
+        alertbox.setContentText("Tem certeza que deseja deletar esste time?");
+        Optional<ButtonType> result = alertbox.showAndWait();
+        if(result.get() == ButtonType.OK) {
+            DbActions.deletaTime();
+        }
+        VerTimesController.voltarVerTime();
     }
 
     @FXML
     void sair(ActionEvent event) {
+        DbActions.jogadorSelecionado = null;
         VerTimesController.voltarVerTime();
     }
 
