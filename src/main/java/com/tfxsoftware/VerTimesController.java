@@ -16,6 +16,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -66,19 +67,21 @@ public class VerTimesController extends MainApp{
     @FXML
     private Button times_button_atualizar;
 
-    private static Stage novotime;
+    public Stage novotime = new Stage();
 
-    private static Stage abrirtime;
+    public Stage abrirtime = new Stage();
 
     private Time selected = null;
 
-    private Alert alertbox = new Alert(AlertType.ERROR);
+    private Alert alertbox = new Alert(AlertType.NONE);
 
     @FXML
     void abrirNovoTime(ActionEvent event) throws IOException {
-        Parent fxmlLoader = MainApp.loadFXML("novo_time");
-        novotime = new Stage();
-        Scene scene = new Scene(fxmlLoader);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/novo_time.fxml"));
+        Parent root = loader.load();
+        NovoTimeController novoTimeController = loader.getController();
+        novoTimeController.setVerTimesController(this);
+        Scene scene = new Scene(root);
         novotime.setTitle("Novo time");
         novotime.setScene(scene);
         novotime.show();
@@ -88,16 +91,14 @@ public class VerTimesController extends MainApp{
     @FXML
     void abrirTime(ActionEvent event) throws Exception {
         setTimeSelecionado();
-        Parent fxmlLoader1 = MainApp.loadFXML("ver_jogadores");
-        abrirtime = new Stage();
-        Scene scene1 = new Scene(fxmlLoader1);
+        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/ver_jogadores.fxml"));
+        Parent root1 = loader1.load();
+        VerJogadoresController verJogadoresController = loader1.getController();
+        verJogadoresController.setVerTimesController(this);
+        Scene scene1 = new Scene(root1);
         abrirtime.setTitle(DbActions.timeSelecionado.getNome());
         abrirtime.setScene(scene1);
         abrirtime.show();
-        
-
-        
-        
     }
 
     @FXML
@@ -134,14 +135,7 @@ public class VerTimesController extends MainApp{
         
          
     }
-    
-    static void voltarNovoTime(){
-        novotime.close();
-    }
 
-    static void voltarVerTime(){
-        abrirtime.close();
-    }
     
     public void setTimeSelecionado() throws Exception{
         try{

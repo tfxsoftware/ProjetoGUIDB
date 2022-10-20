@@ -47,9 +47,13 @@ public class Time {
         this.Tecnico = Tecnico;
     }
 
-    public String toJson() throws JsonProcessingException{
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(this);
-        return json;
+    public Document toDocument(){
+        Document document = new Document("Nome", this.Nome)
+        .append("Pais", this.Pais)
+        .append("Titulos", this.Titulos)
+        .append("Tecnico", this.Tecnico);
+        return document;
+        
+    
     }
 }

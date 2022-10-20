@@ -2,7 +2,6 @@ package com.tfxsoftware;
 
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
 
 import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.MongoClient;
@@ -10,7 +9,7 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
+
 
 public abstract class DbActions{
     
@@ -25,18 +24,14 @@ public abstract class DbActions{
         return collection;
     }
 
-    public static boolean addTime(String nome, String pais, String titulos, String tecnico){
-        if (verificaExistenciaTime("Times", nome)){
+    public static boolean addTime(Document time){
+        if (verificaExistenciaTime("Times", (String) time.get("Nome"))){
         MongoCollection<Document> collection = getCollection("ProjetoAndre", "Times");
-        collection.insertOne(new Document("Nome", nome)
-        .append("Pais", pais)
-        .append("Titulos", titulos)
-        .append("Tecnico", tecnico));
+        collection.insertOne(time);
         return true;
         }
-        else {
-            return false;
-        }
+        else return false;
+
     }
 
     public static boolean addJogador(String nome, String idade, String gols, String posicao, String time){
@@ -80,7 +75,7 @@ public abstract class DbActions{
         return true;
     }
 
-    public static void deletaTime(){
+    public static void deletaTimeESeusJogadores(){
         MongoCollection<Document> collectionj = getCollection("ProjetoAndre", "Jogadores");
         MongoCursor<Document> cursorj = collectionj.find(eq("Time", timeSelecionado.getNome())).iterator();
         while (cursorj.hasNext()){
@@ -88,6 +83,18 @@ public abstract class DbActions{
             collectionj.deleteOne(jogador);
         }
         
+        MongoCollection<Document> collection = getCollection("ProjetoAndre", "Times");
+        MongoCursor<Document> cursor = collection.find().iterator();
+            while(cursor.hasNext()){
+                Document time = cursor.next();
+                String n = (String) time.get("Nome");
+                if (n.equals(timeSelecionado.getNome())){
+                    collection.deleteOne(time);
+                }
+        }
+    }
+
+    public static void deletaTime(){
         MongoCollection<Document> collection = getCollection("ProjetoAndre", "Times");
         MongoCursor<Document> cursor = collection.find().iterator();
             while(cursor.hasNext()){
@@ -112,11 +119,12 @@ public abstract class DbActions{
         }
     }
 
-    public static void editaTime(){
-        MongoCollection<Document> collection = getCollection("ProjetoAndre", "Times");
-        MongoCursor<Document> cursor = collection.find().iterator();
-        
+    public static void editaTime(Time t){
+        deletaTime();
+        addTime(t.toDocument());    
     }
 
-
+    public static void editaJogador(Jogador j){
+        deletaJogador(j.toDocument());
+    }
 }

@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -95,15 +96,17 @@ public class VerJogadoresController extends MainApp{
     @FXML
     private Label label_titulostime;
 
-    public static Stage novojogador;
+    public Stage novojogador = new Stage();
 
-    public static Stage editjogador;
+    public Stage editjogador;
 
-    public static Stage edittime;
+    public Stage edittime = new Stage();
     
     private Alert alertbox = new Alert(AlertType.NONE);
 
     private Jogador selected;
+
+    private VerTimesController verTimesController;
 
     @FXML
     void abrirEditarJogador(ActionEvent event) {
@@ -112,20 +115,25 @@ public class VerJogadoresController extends MainApp{
 
     @FXML
     void abrirEditarTime(ActionEvent event) throws IOException {
-        Parent fxmlLoader = MainApp.loadFXML("editar_time");
-        edittime = new Stage();
-        Scene scene = new Scene(fxmlLoader);
-        edittime.setTitle("editar time");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editar_time.fxml"));
+        Parent root = loader.load();
+        EditTimeController editTimeController = loader.getController();
+        editTimeController.setVerJogadoresController(this);
+        Scene scene = new Scene(root);
+        verTimesController.popularTimes();
+        edittime.setTitle("Editar time");
         edittime.setScene(scene);
         edittime.show();
     }
 
     @FXML
     void abrirNovoJogador(ActionEvent event) throws IOException {
-        Parent fxmlLoader = MainApp.loadFXML("novo_jogador");
-        novojogador = new Stage();
-        Scene scene = new Scene(fxmlLoader);
-        novojogador.setTitle("Novo time");
+        FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/novo_jogador.fxml"));
+        Parent root1 = loader1.load();
+        NovoJogadorController NovoJogadorController = loader1.getController();
+        NovoJogadorController.setVerJogadoresController(this);
+        Scene scene = new Scene(root1);
+        novojogador.setTitle("Novo jogador");
         novojogador.setScene(scene);
         novojogador.show();
     }
@@ -133,6 +141,7 @@ public class VerJogadoresController extends MainApp{
     @FXML
     void atualizaTabelaj(ActionEvent event) {
         popularJogadores();
+        setTexts();
     }
 
     @FXML
@@ -143,28 +152,43 @@ public class VerJogadoresController extends MainApp{
         Optional<ButtonType> result = alertbox.showAndWait();
         if(result.get() == ButtonType.OK) {
             DbActions.deletaJogador(DbActions.jogadorSelecionado.toDocument());
+            popularJogadores();
         }
         
     }
 
     @FXML
     void deletarTime(ActionEvent event) throws Exception {
-        alertbox.setAlertType(AlertType.CONFIRMATION);
-        alertbox.setContentText("Tem certeza que deseja deletar esste time?");
-        Optional<ButtonType> result = alertbox.showAndWait();
-        if(result.get() == ButtonType.OK) {
-            DbActions.deletaTime();
+        if (DbActions.timeSelecionado != null){
+            alertbox.setAlertType(AlertType.CONFIRMATION);
+            alertbox.setContentText("Tem certeza que deseja deletar o time " + DbActions.timeSelecionado.getNome() + "?");
+            Optional<ButtonType> result = alertbox.showAndWait();
+            if(result.get() == ButtonType.OK) {
+                DbActions.deletaTimeESeusJogadores();
+                DbActions.timeSelecionado = null;
+                verTimesController.popularTimes();
+                alertbox.setAlertType(AlertType.INFORMATION);
+                alertbox.setContentText("Time deletado com sucesso!");
+                alertbox.show();
+                verTimesController.abrirtime.close();
+            }
         }
-        VerTimesController.voltarVerTime();
+        else {
+            alertbox.setAlertType(AlertType.INFORMATION);
+            alertbox.setContentText("Nem um time selecionado!");
+            alertbox.show();
+        }
     }
 
     @FXML
     void sair(ActionEvent event) {
         DbActions.jogadorSelecionado = null;
-        VerTimesController.voltarVerTime();
+        verTimesController.popularTimes();
+        verTimesController.abrirtime.close();
+
     }
 
-    private void popularJogadores(){
+    public void popularJogadores(){
         ObservableList<Jogador> lista = FXCollections.observableArrayList();
         MongoCollection<Document> collection = DbActions.getCollection("ProjetoAndre", "Jogadores"); 
         MongoCursor<Document> cursor = collection.find().iterator();
@@ -189,13 +213,6 @@ public class VerJogadoresController extends MainApp{
         Tabela_Jogadores.setItems(lista);
     }
 
-    public static void voltarNovoJogador(){
-        novojogador.close();
-    }
-
-    public static void voltarEditTime(){
-        edittime.close();
-    }
 
     public void setJogadorSelecionado() throws Exception{
         try{
@@ -212,15 +229,22 @@ public class VerJogadoresController extends MainApp{
         }
     }
     
-    
-    @FXML
-    void initialize(){
-        popularJogadores();
+    public void setTexts(){
         label_nometime_header.setText(DbActions.timeSelecionado.getNome().toUpperCase());
         label_getnome.setText(DbActions.timeSelecionado.getNome());
         label_getpais.setText(DbActions.timeSelecionado.getPais());
         label_gettitulos.setText(DbActions.timeSelecionado.getTitulos());
         label_gettecnico.setText(DbActions.timeSelecionado.getTecnico());
+    }
+
+    public void setVerTimesController(VerTimesController verTimesController){
+        this.verTimesController = verTimesController;
+    }
+    
+    @FXML
+    void initialize(){
+        popularJogadores();
+        setTexts();
     }
 
 }

@@ -49,6 +49,8 @@ public class NovoJogadorController extends MainApp{
 
     private Alert alertbox = new Alert(AlertType.INFORMATION);
 
+    VerJogadoresController verJogadoresController;
+
     @FXML
     void registrarJogador (ActionEvent event) {
         if (novojogador_textf_nome.getText().equals("") ||
@@ -69,6 +71,7 @@ public class NovoJogadorController extends MainApp{
                 alertbox.setAlertType(AlertType.INFORMATION);
                 alertbox.setContentText("Jogador registrado com sucesso!");
                 alertbox.show();
+                verJogadoresController.popularJogadores();
             }
             else{
                 alertbox.setAlertType(AlertType.ERROR);
@@ -80,7 +83,11 @@ public class NovoJogadorController extends MainApp{
 
     @FXML
     void voltar(ActionEvent event) {
-        VerJogadoresController.voltarNovoJogador();
+        verJogadoresController.novojogador.close();
+    }
+
+    public void setVerJogadoresController(VerJogadoresController verJogadoresController){
+        this.verJogadoresController = verJogadoresController;
     }
 
 }

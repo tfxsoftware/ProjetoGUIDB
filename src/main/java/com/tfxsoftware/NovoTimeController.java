@@ -48,6 +48,12 @@ public class NovoTimeController extends MainApp{
 
     private Alert alertbox = new Alert(AlertType.NONE);
 
+    private VerTimesController verTimesController;
+
+    public void setVerTimesController(VerTimesController verTimesController) {
+        this.verTimesController = verTimesController;
+    }
+
     @FXML
     void registrar_time(ActionEvent event) {
         if (novotime_textf_nome.getText().equals("") ||
@@ -59,11 +65,14 @@ public class NovoTimeController extends MainApp{
             alertbox.show();
         }
         else{
-            if(DbActions.addTime(novotime_textf_nome.getText(), novotime_textf_pais.getText(), novotime_textf_titulos.getText(), novotime_textf_tecnico.getText())){
+            Time time = new Time(novotime_textf_nome.getText(), novotime_textf_pais.getText(), novotime_textf_titulos.getText(), novotime_textf_tecnico.getText());
+            if(DbActions.addTime(time.toDocument())){
+                
                 novotime_textf_nome.setText("");
                 novotime_textf_pais.setText("");
                 novotime_textf_titulos.setText("");
                 novotime_textf_tecnico.setText("");
+                verTimesController.popularTimes();
                 alertbox.setAlertType(AlertType.INFORMATION);
                 alertbox.setContentText("Time registrado com sucesso!");
                 alertbox.show();
@@ -78,7 +87,8 @@ public class NovoTimeController extends MainApp{
 
     @FXML
     void voltar(ActionEvent event) {
-        VerTimesController.voltarNovoTime();
+        DbActions.timeSelecionado = null;
+        verTimesController.novotime.close();
     }
 
     @FXML

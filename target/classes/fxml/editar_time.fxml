@@ -37,6 +37,10 @@
          <font>
             <Font size="14.0" />
          </font></Label>
-      <TextField fx:id="edittime_textf_nome" layoutX="110.0" layoutY="73.0" />
+      <Label fx:id="edittime_label_gettime" layoutX="112.0" layoutY="77.0" prefHeight="20.0" prefWidth="149.0" text="&lt;nome_time&gt;" textFill="#0d8600">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

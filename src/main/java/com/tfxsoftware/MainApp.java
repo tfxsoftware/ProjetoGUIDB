@@ -35,8 +35,7 @@ public class MainApp extends Application {
         return fxmlLoader.load();
     }
 
-    public static void sair(){
-
+    public static void sair(){  
         stage.close();
     }
 
