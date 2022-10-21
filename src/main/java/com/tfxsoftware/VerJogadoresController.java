@@ -109,8 +109,15 @@ public class VerJogadoresController extends MainApp{
     private VerTimesController verTimesController;
 
     @FXML
-    void abrirEditarJogador(ActionEvent event) {
-
+    void abrirEditarJogador(ActionEvent event) throws IOException {
+        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/fxml/editar_jogador.fxml"));
+        Parent root2 = loader2.load();
+        EditJogadorController editJogadorController = loader2.getController();
+        editJogadorController.setVerJogadoresController(this);
+        Scene scene = new Scene(root2);
+        editjogador.setTitle("Editar Jogador");
+        editjogador.setScene(scene);
+        editjogador.show();
     }
 
     @FXML
@@ -120,7 +127,6 @@ public class VerJogadoresController extends MainApp{
         EditTimeController editTimeController = loader.getController();
         editTimeController.setVerJogadoresController(this);
         Scene scene = new Scene(root);
-        verTimesController.popularTimes();
         edittime.setTitle("Editar time");
         edittime.setScene(scene);
         edittime.show();
