@@ -4,15 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.bson.Document;
 
-
-
-
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,6 +19,7 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class VerTimesController extends MainApp{
@@ -84,6 +77,8 @@ public class VerTimesController extends MainApp{
         Scene scene = new Scene(root);
         novotime.setTitle("Novo time");
         novotime.setScene(scene);
+        novotime.setResizable(false);
+        //novotime.initModality(Modality.APPLICATION_MODAL);
         novotime.show();
         
     }
@@ -98,6 +93,8 @@ public class VerTimesController extends MainApp{
         Scene scene1 = new Scene(root1);
         abrirtime.setTitle(DbActions.timeSelecionado.getNome());
         abrirtime.setScene(scene1);
+        abrirtime.setResizable(false);
+        //abrirtime.initModality(Modality.APPLICATION_MODAL);
         abrirtime.show();
     }
 
@@ -112,28 +109,12 @@ public class VerTimesController extends MainApp{
     }
 
     public void popularTimes(){
-        ObservableList<Time> lista = FXCollections.observableArrayList();
-        MongoCollection<Document> collection = DbActions.getCollection("ProjetoAndre", "Times"); 
-        MongoCursor<Document> cursor = collection.find().iterator();
-        while(cursor.hasNext()){
-            Document object = cursor.next();
-            String nome = (String) object.get("Nome");
-            String pais = (String) object.get("Pais");
-            String titulos = (String) object.get("Titulos");
-            String tecnico = (String) object.get("Tecnico");
-            Time time = new Time(nome, pais, titulos, tecnico);
-            lista.add(time);
-        }    
-        
-        
+        ObservableList<Time> lista = DbActions.getAllTimes();
         c_times_nome.setCellValueFactory(new PropertyValueFactory<Time, String>("Nome"));
         c_times_pais.setCellValueFactory(new PropertyValueFactory<Time, String>("Pais"));
         c_times_titulos.setCellValueFactory(new PropertyValueFactory<Time, String>("Titulos"));
         c_times_tecnico.setCellValueFactory(new PropertyValueFactory<Time, String>("Tecnico"));
-        
-        Tabela_Times.setItems(lista);
-        
-         
+        Tabela_Times.setItems(lista);        
     }
 
     

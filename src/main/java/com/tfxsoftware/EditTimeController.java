@@ -4,8 +4,7 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -65,7 +64,6 @@ public class EditTimeController{
         alertbox.setAlertType(AlertType.INFORMATION);
         alertbox.setContentText("Time editado com sucesso!");
         alertbox.show();
-        setTexts();
         verJogadoresController.setTexts();
     }   
 

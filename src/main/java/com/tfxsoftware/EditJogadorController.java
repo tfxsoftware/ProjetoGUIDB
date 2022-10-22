@@ -49,7 +49,14 @@ public class EditJogadorController {
 
     @FXML
     void editJogador(ActionEvent event) {
-
+        Jogador jogador = new Jogador(editjogador_textf_nome.getText(), 
+                                      editjogador_textf_idade.getText(), 
+                                      editjogador_textf_gols.getText(), 
+                                      editjogador_textf_posicao.getText(), 
+                                      DbActions.jogadorSelecionado.getTime());
+        
+        DbActions.editaJogador(jogador);
+        verJogadoresController.popularJogadores();
     }
 
     @FXML
@@ -59,5 +66,13 @@ public class EditJogadorController {
 
     void setVerJogadoresController(VerJogadoresController verJogadoresController){
         this.verJogadoresController = verJogadoresController;
+    }
+
+    @FXML
+    void iniatialize(){
+        editjogador_textf_nome.setText(DbActions.jogadorSelecionado.getNome());
+        editjogador_textf_idade.setText(DbActions.jogadorSelecionado.getIdade());
+        editjogador_textf_gols.setText(DbActions.jogadorSelecionado.getGols());
+        editjogador_textf_posicao.setText(DbActions.jogadorSelecionado.getPosicao());
     }
 }

@@ -5,12 +5,7 @@ package com.tfxsoftware;
 import java.io.IOException;
 import java.util.Optional;
 
-import org.bson.Document;
 
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +21,7 @@ import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class VerJogadoresController extends MainApp{
@@ -98,7 +94,7 @@ public class VerJogadoresController extends MainApp{
 
     public Stage novojogador = new Stage();
 
-    public Stage editjogador;
+    public Stage editjogador = new Stage();
 
     public Stage edittime = new Stage();
     
@@ -109,7 +105,9 @@ public class VerJogadoresController extends MainApp{
     private VerTimesController verTimesController;
 
     @FXML
-    void abrirEditarJogador(ActionEvent event) throws IOException {
+    void abrirEditarJogador(ActionEvent event) {
+        try{
+            setJogadorSelecionado();
         FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/fxml/editar_jogador.fxml"));
         Parent root2 = loader2.load();
         EditJogadorController editJogadorController = loader2.getController();
@@ -117,8 +115,17 @@ public class VerJogadoresController extends MainApp{
         Scene scene = new Scene(root2);
         editjogador.setTitle("Editar Jogador");
         editjogador.setScene(scene);
+        editjogador.setResizable(false);
+        //editjogador.initModality(Modality.APPLICATION_MODAL);
         editjogador.show();
+        }
+        catch (Exception e){
+                alertbox.setAlertType(AlertType.ERROR);
+                alertbox.setContentText("Nem um jogador selecionado!");
+                alertbox.show();
+            }
     }
+
 
     @FXML
     void abrirEditarTime(ActionEvent event) throws IOException {
@@ -129,11 +136,13 @@ public class VerJogadoresController extends MainApp{
         Scene scene = new Scene(root);
         edittime.setTitle("Editar time");
         edittime.setScene(scene);
+        edittime.setResizable(false);
+        //edittime.initModality(Modality.APPLICATION_MODAL);
         edittime.show();
     }
 
     @FXML
-    void abrirNovoJogador(ActionEvent event) throws IOException {
+    void abrirNovoJogador(ActionEvent event) throws Exception{
         FXMLLoader loader1 = new FXMLLoader(getClass().getResource("/fxml/novo_jogador.fxml"));
         Parent root1 = loader1.load();
         NovoJogadorController NovoJogadorController = loader1.getController();
@@ -141,6 +150,8 @@ public class VerJogadoresController extends MainApp{
         Scene scene = new Scene(root1);
         novojogador.setTitle("Novo jogador");
         novojogador.setScene(scene);
+        novojogador.setResizable(false);
+        //novojogador.initModality(Modality.APPLICATION_MODAL);
         novojogador.show();
     }
 
@@ -151,17 +162,24 @@ public class VerJogadoresController extends MainApp{
     }
 
     @FXML
-    void deletarJogador(ActionEvent event) throws Exception {
-        setJogadorSelecionado();
-        alertbox.setAlertType(AlertType.CONFIRMATION);
-        alertbox.setContentText("Tem certeza que deseja deletar jogador?");
-        Optional<ButtonType> result = alertbox.showAndWait();
-        if(result.get() == ButtonType.OK) {
-            DbActions.deletaJogador(DbActions.jogadorSelecionado.toDocument());
-            popularJogadores();
+    void deletarJogador(ActionEvent event)  {
+        try{
+            setJogadorSelecionado();
+            alertbox.setAlertType(AlertType.CONFIRMATION);
+            alertbox.setContentText("Tem certeza que deseja deletar jogador?");
+            Optional<ButtonType> result = alertbox.showAndWait();
+            if(result.get() == ButtonType.OK) {
+                DbActions.deletaJogador(DbActions.jogadorSelecionado.toDocument());
+                popularJogadores();
+            }
         }
-        
+        catch(Exception e){
+            alertbox.setAlertType(AlertType.ERROR);
+            alertbox.setContentText("Nem um jogador selecionado!");
+            alertbox.show();
+        }
     }
+        
 
     @FXML
     void deletarTime(ActionEvent event) throws Exception {
@@ -195,21 +213,7 @@ public class VerJogadoresController extends MainApp{
     }
 
     public void popularJogadores(){
-        ObservableList<Jogador> lista = FXCollections.observableArrayList();
-        MongoCollection<Document> collection = DbActions.getCollection("ProjetoAndre", "Jogadores"); 
-        MongoCursor<Document> cursor = collection.find().iterator();
-        while(cursor.hasNext()){
-            Document object = cursor.next();
-            String time = (String) object.get("Time");
-            if (time.equals(DbActions.timeSelecionado.getNome())){
-                String nome = (String) object.get("Nome");
-                String idade = (String) object.get("Idade");
-                String gols = (String) object.get("Gols");
-                String posicao = (String) object.get("Posicao");
-                Jogador jogador = new Jogador(nome, idade, gols, posicao, time);
-                lista.add(jogador);
-            }    
-        }
+        ObservableList<Jogador> lista = DbActions.getAllJogadores();
         
         c_jogadores_nome.setCellValueFactory(new PropertyValueFactory<Jogador, String>("Nome"));
         c_jogadores_idade.setCellValueFactory(new PropertyValueFactory<Jogador, String>("Idade"));
@@ -221,18 +225,13 @@ public class VerJogadoresController extends MainApp{
 
 
     public void setJogadorSelecionado() throws Exception{
-        try{
             TablePosition pos = Tabela_Jogadores.getSelectionModel().getSelectedCells().get(0);
             int row = pos.getRow();
 
             this.selected = Tabela_Jogadores.getItems().get(row);
             DbActions.jogadorSelecionado = selected;
-        }
-        catch(Exception e){
-            alertbox.setAlertType(AlertType.ERROR);
-            alertbox.setContentText("Nem um jogador selecionado!");
-            alertbox.show();
-        }
+        
+
     }
     
     public void setTexts(){
