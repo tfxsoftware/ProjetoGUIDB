@@ -36,7 +36,7 @@
       <TextField fx:id="editjogador_textf_idade" layoutX="112.0" layoutY="121.0" />
       <TextField fx:id="editjogador_textf_gols" layoutX="112.0" layoutY="173.0" />
       <TextField fx:id="editjogador_textf_posicao" layoutX="112.0" layoutY="217.0" />
-      <Button fx:id="editjogador_button_criar" layoutX="17.0" layoutY="264.0" mnemonicParsing="false" onAction="#editJogador" prefHeight="25.0" prefWidth="72.0" text="Criar!" />
+      <Button fx:id="editjogador_button_editar" layoutX="17.0" layoutY="264.0" mnemonicParsing="false" onAction="#editJogador" prefHeight="25.0" prefWidth="72.0" text="Editar!" />
       <Button fx:id="editjogador_button_voltar" layoutX="187.0" layoutY="264.0" mnemonicParsing="false" onAction="#voltar" prefHeight="25.0" prefWidth="72.0" text="Voltar" />
    </children>
 </AnchorPane>

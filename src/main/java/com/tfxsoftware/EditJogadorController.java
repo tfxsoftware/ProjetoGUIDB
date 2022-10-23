@@ -10,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 public class EditJogadorController {
 
     @FXML
-    private Button editjogador_button_criar;
+    private Button editjogador_button_editar;
 
     @FXML
     private Button editjogador_button_voltar;
@@ -69,7 +69,7 @@ public class EditJogadorController {
     }
 
     @FXML
-    void iniatialize(){
+    void initialize(){
         editjogador_textf_nome.setText(DbActions.jogadorSelecionado.getNome());
         editjogador_textf_idade.setText(DbActions.jogadorSelecionado.getIdade());
         editjogador_textf_gols.setText(DbActions.jogadorSelecionado.getGols());

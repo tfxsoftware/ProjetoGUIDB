@@ -78,7 +78,6 @@ public class VerTimesController extends MainApp{
         novotime.setTitle("Novo time");
         novotime.setScene(scene);
         novotime.setResizable(false);
-        //novotime.initModality(Modality.APPLICATION_MODAL);
         novotime.show();
         
     }
@@ -94,7 +93,6 @@ public class VerTimesController extends MainApp{
         abrirtime.setTitle(DbActions.timeSelecionado.getNome());
         abrirtime.setScene(scene1);
         abrirtime.setResizable(false);
-        //abrirtime.initModality(Modality.APPLICATION_MODAL);
         abrirtime.show();
     }
 
@@ -135,7 +133,8 @@ public class VerTimesController extends MainApp{
 
     @FXML
     public void initialize() {
-
+        novotime.initModality(Modality.APPLICATION_MODAL);
+        abrirtime.initModality(Modality.APPLICATION_MODAL);
         popularTimes();
     }
 }

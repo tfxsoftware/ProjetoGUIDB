@@ -108,16 +108,15 @@ public class VerJogadoresController extends MainApp{
     void abrirEditarJogador(ActionEvent event) {
         try{
             setJogadorSelecionado();
-        FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/fxml/editar_jogador.fxml"));
-        Parent root2 = loader2.load();
-        EditJogadorController editJogadorController = loader2.getController();
-        editJogadorController.setVerJogadoresController(this);
-        Scene scene = new Scene(root2);
-        editjogador.setTitle("Editar Jogador");
-        editjogador.setScene(scene);
-        editjogador.setResizable(false);
-        //editjogador.initModality(Modality.APPLICATION_MODAL);
-        editjogador.show();
+            FXMLLoader loader2 = new FXMLLoader(getClass().getResource("/fxml/editar_jogador.fxml"));
+            Parent root2 = loader2.load();
+            EditJogadorController editJogadorController = loader2.getController();
+            editJogadorController.setVerJogadoresController(this);
+            Scene scene = new Scene(root2);
+            editjogador.setTitle("Editar Jogador");
+            editjogador.setScene(scene);
+            editjogador.setResizable(false);
+            editjogador.show();
         }
         catch (Exception e){
                 alertbox.setAlertType(AlertType.ERROR);
@@ -137,7 +136,6 @@ public class VerJogadoresController extends MainApp{
         edittime.setTitle("Editar time");
         edittime.setScene(scene);
         edittime.setResizable(false);
-        //edittime.initModality(Modality.APPLICATION_MODAL);
         edittime.show();
     }
 
@@ -151,7 +149,6 @@ public class VerJogadoresController extends MainApp{
         novojogador.setTitle("Novo jogador");
         novojogador.setScene(scene);
         novojogador.setResizable(false);
-        //novojogador.initModality(Modality.APPLICATION_MODAL);
         novojogador.show();
     }
 
@@ -250,6 +247,9 @@ public class VerJogadoresController extends MainApp{
     void initialize(){
         popularJogadores();
         setTexts();
+        novojogador.initModality(Modality.APPLICATION_MODAL);
+        edittime.initModality(Modality.APPLICATION_MODAL);
+        editjogador.initModality(Modality.APPLICATION_MODAL);
     }
 
 }
